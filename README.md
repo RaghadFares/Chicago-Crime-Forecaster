@@ -2,7 +2,7 @@
 IT 462 - King Saud University
 
 ## Team Members
-- Member 1: [Name] - [ID]
+- Member 1: [Raghad Almutairi] - [443200793]
 - Member 2: [Name] - [ID]
 - Member 3: [Name] - [ID]
 - Member 4: [Name] - [ID]
