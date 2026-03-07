@@ -25,7 +25,13 @@ The goal is to support **data-driven decision making** for public safety plannin
 The dataset contains spatial, temporal, and categorical attributes such as district, crime type, location, and timestamps.
 
 ---
-
+Preprocessed Dataset
+The preprocessed dataset used for modeling was generated after applying the data cleaning, reduction, and transformation steps described in this project.
+Due to the large size of the dataset, the processed file is hosted separately.
+Download Link:
+[https://drive.google.com/drive/folders/1WQXSP-ZE23fDB3HHBddJOebZY1Yfe1zI?usp=share_link]
+The dataset contains aggregated weekly crime counts per district, along with engineered features used for forecasting.
+---
 ## Technologies
 
 * Apache Spark
