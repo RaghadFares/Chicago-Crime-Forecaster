@@ -1,61 +1,103 @@
-# Chicago Crime Data Analysis - Big Data Project
-IT 462 - King Saud University
 
-## Team Members
-- Member 1: [Raghad Almutairi] - [443200793]
-- Member 2: [Name] - [ID]
-- Member 3: [Name] - [ID]
-- Member 4: [Name] - [ID]
+# Crime Count Forecasting using Apache Spark
 
-## Dataset Information
-- **Name:** Chicago Crimes 2021-2024
-- **Source:** City of Chicago Data Portal
-- **Size:** ~2.5M rows, ~1 GB
-- **URL:** https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2
+## Overview
 
-## ⚠️ IMPORTANT: Download the Dataset
+This project builds a **crime count forecasting system** using **Apache Spark** to analyze large-scale crime data from Chicago. Instead of classifying locations as high or low risk, the system predicts the **expected number of crime incidents per district** for future time periods.
 
-The full dataset is **NOT** included in this repository due to its size (1 GB).
+The goal is to support **data-driven decision making** for public safety planning by identifying crime trends across districts and time.
 
-### Option 1: Automatic Download (Recommended)
-Run the download script:
-```bash
-python download_data.py
-```
+---
 
-### Option 2: Manual Download
-1. Go to: https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2
-2. Click "Filter" → Filter by Year: 2021-2024
-3. Click "Export" → Choose "CSV"
-4. Save as: `data/chicago_crimes_2021_2024.csv`
+## Dataset
 
-### Option 3: API Download
-```bash
-pip install sodapy pandas
-python download_data.py
-```
+**Name:** Crimes – 2001 to Present
+**Source:** Chicago Open Data Portal
+[https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2)
 
-## Project Structure
-```
-BigDataProject/
-├── code/           # Scala/Spark source code
-├── data/           # Data files (gitignored, download separately)
-├── results/        # Output files
-└── docs/           # Documentation and reports
-```
+**Subset used in this project:**
 
-## Setup Instructions
-1. Clone this repository
-2. Download the dataset (see above)
-3. Install Apache Spark 3.x with Scala 2.12
-4. Run preprocessing: `spark-submit code/01_DataPreprocessing.scala`
+* Time period: **2021 – 2024**
+* Records: **971,865**
+* File size: **~330 MB**
+* Format: **CSV**
 
-## Dataset Schema
-See `data/sample_data.csv` for structure (100 sample rows included)
+The dataset contains spatial, temporal, and categorical attributes such as district, crime type, location, and timestamps.
 
-Full dataset columns (22 total):
-- id, case_number, date, block, iucr
-- primary_type, description, location_description
-- arrest, domestic, beat, district, ward
-- community_area, fbi_code, x_coordinate, y_coordinate
-- year, updated_on, latitude, longitude, location
+---
+
+## Technologies
+
+* Apache Spark
+* Spark SQL
+* Spark MLlib
+* Scala
+* Distributed Data Processing
+
+---
+
+## Data Processing Pipeline
+
+### 1. Data Cleaning
+
+* Removed records with missing geographic information.
+* Verified valid date range (2021–2024).
+* Checked for duplicate records.
+
+**Result**
+
+| Stage            | Rows    |
+| ---------------- | ------- |
+| Original dataset | 971,865 |
+| After cleaning   | 952,563 |
+
+---
+
+### 2. Data Reduction
+
+To reduce dataset size and prepare it for forecasting:
+
+* Selected key features: `date`, `district`, `primary_type`
+* Aggregated crime incidents **weekly per district**
+* Pivoted crime types into numerical features
+
+**Result**
+
+| Stage            | Rows    | Columns |
+| ---------------- | ------- | ------- |
+| Original dataset | 971,865 | 22      |
+| After reduction  | 4,667   | 33      |
+
+---
+
+### 3. Data Transformation
+
+Additional features were engineered:
+
+* `month` and `week_no` (seasonal patterns)
+* encoded `district` using StringIndexer
+* created lag feature `prev_week_total`
+
+These features help the model capture **temporal trends and crime momentum**.
+
+---
+
+## Project Goal
+
+The final objective is to build a **regression model that forecasts weekly crime counts per district**, enabling better resource allocation and proactive crime prevention.
+
+---
+
+## Team
+
+This project was developed as part of the **IT462 Big Data Systems course**.
+
+**Team Members**
+
+* Raghad Fares Almutairi
+* [Add Team Member Name]
+* [Add Team Member Name]
+* [Add Team Member Name]
+
+
+
